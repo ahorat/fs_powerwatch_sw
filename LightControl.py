@@ -115,14 +115,14 @@ class RbPILightControl:
 if __name__ == '__main__': 
     print("Test Lightcontrol")
     lightcontrol = RbPILightControl(None, linkredhorn = False, blinkred=True)
-    input();
+    input("Turn on Green?");
     lightcontrol.SwitchLighState(STATE_GREEN)
-    input()
+    input("Turn on Orange?")
     lightcontrol.SwitchLighState(STATE_ORANGE)
-    input()
+    input("Turn on Red?")
     lightcontrol.SwitchLighState(STATE_RED)
-    input()
+    input("Turn on Horn?")
     lightcontrol.SwitchLighState(STATE_HORN)
-    input()
+    input("Turn on Off?")
     lightcontrol.SwitchLighState(STATE_OFF)
 

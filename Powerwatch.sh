@@ -1,5 +1,6 @@
 PowerWatch.sh                                                                               
 #!/bin/bash
 
-exec python /home/ah/Repos/fs_powermeter_sw/fs_powerwatch_GUI.py
+source /home/powermeter/fs_powerwatch_sw/env/bin/activate
+exec python /home/powermeter/fs_powerwatch_sw/fs_powerwatch_GUI.py
 pause

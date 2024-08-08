@@ -134,15 +134,9 @@ class FsPowerWatchGui:
         self._config = configparser.ConfigParser()
         self._config.read("config.ini")
         
-        print(self._config)
-        for key in self._config["DEFAULT"]:  
-            print(key)
         if("DEFAULT" not in self._config):
             self._config["DEFAULT"] = {}
             
-        print(self._config)
-        for key in self._config["DEFAULT"]:  
-            print(key)
         if("logpath" not in self._config):
             self._config["DEFAULT"]["logpath"] = "./FSG_Log"
         
@@ -154,9 +148,8 @@ class FsPowerWatchGui:
             self._config["credentials"] = {"username": "admin", "password": "admin"}
             
         if("port" in self._config["DEFAULT"]):
-            print(F"Try to autoconnect to {self._config["DEFAULT"]["port"]}")
+            print(F"Try to autoconnect to " + self._config["DEFAULT"]["port"])
             self._SerialPortBox.set(self._config["DEFAULT"]["port"])
-            print(F"Try to autoconnect to {self._config["DEFAULT"]["port"]}")
             self.ManagePort()
         
         
@@ -167,6 +160,8 @@ class FsPowerWatchGui:
         
         self._root.after(500, self.UpdateData)
         self._root.mainloop()
+        
+        
         # Clean up
         self._PowerMeter.disconnect()
         self._LightControl.SwitchLighState(LightControl.STATE_OFF)

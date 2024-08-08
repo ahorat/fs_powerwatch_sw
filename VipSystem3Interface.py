@@ -9,7 +9,7 @@ import logging
 import logging.handlers
 import threading
 import PowerWatchDataStorage
-from dataclasses  import fields
+from dataclasses  import fields, asdict
 
 
 
@@ -327,7 +327,7 @@ class VipSystem3Interface:
         
         counter = 0;
         self._datalogger.info(F"TimeStamp, "+', '.join(list(fields(self._DataStorage))))
-        self._datalogger.info(F"{time.time_ns()//1_000_000}, "+', '.join(['{:f}'.format(x) for x in list(self._DataStorage.values())]))
+        self._datalogger.info(F"{time.time_ns()//1_000_000}, "+', '.join(['{:f}'.format(x) for x in list(asdict(self._DataStorage).values())]))
         
         while self._RunActive:
             if(counter == 0):
@@ -338,7 +338,7 @@ class VipSystem3Interface:
                 self.collect_all_measurements(_MEASURING_PAGE_5_ID)
             
             counter = counter - 1
-            self._datalogger.info(F"{time.time_ns()}, "+', '.join(['{:f}'.format(x) for x in list(self._DataStorage.values())]))
+            self._datalogger.info(F"{time.time_ns()}, "+', '.join(['{:f}'.format(x) for x in list(asdict(self._DataStorage).values())]))
             self._DataQueue.put(self._DataStorage)       
             
             

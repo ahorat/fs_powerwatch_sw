@@ -21,7 +21,7 @@ class ShellyInterface:
     _DataStorage = PowerWatchDataStorage.PowerWatchDataStorage()
     
     _DataQueue = queue.SimpleQueue()
-    _ReturnDataRecord = {}
+    _ReturnDataRecord  = PowerWatchDataStorage.PowerWatchDataStorage()
     
     _datalogger = logging.getLogger('DataLogger')
     
@@ -71,9 +71,8 @@ class ShellyInterface:
         Run the data logger 
         """        
         counter = 0;
-        print(self._DataStorage)
         self._datalogger.info(F"TimeStamp, "+', '.join([field.name for field in (fields(self._DataStorage))]))
-        self._datalogger.info(F"{time.time_ns()//1_000_000}, "+', '.join(['{:f}'.format(x) for x in list(self._DataStorage.values())]))
+        self._datalogger.info(F"{time.time_ns()//1_000_000}, "+', '.join(['{:f}'.format(x) for x in list(dataclasses.asdict(self._DataStorage).values())]))
         
         while self._RunActive:            
             time.sleep(0.5)
