@@ -14,6 +14,7 @@ import ShellyInterface
 import FsPowerWatchMainFrame
 import LightControl
 from dataclasses import asdict
+import configparser
 
 
 class FsPowerWatchGui:    
@@ -24,7 +25,6 @@ class FsPowerWatchGui:
     _Fonts = {}
     _ValueStorage = {}        
     _LimitStorage = {}
-    _LOG_PATH_NAME = "./FSG_Log"
     
     def _on_configure(self, event):
         '''Event when window gets resized'''
@@ -65,13 +65,16 @@ class FsPowerWatchGui:
             try:
                 serial_port=self._SerialPortBox.get().split(' ',1)[0]
                 if((serial_port[0] == "C" or serial_port[0] == "/") and self._PowerMeter is not VipSystem3Interface.VipSystem3Interface):
-                    self._PowerMeter= VipSystem3Interface.VipSystem3Interface(self._LOG_PATH_NAME)
+                    self._PowerMeter= VipSystem3Interface.VipSystem3Interface(self._config["DEFAULT"]["LogPath"])
                 else:
-                    self._PowerMeter= ShellyInterface.ShellyInterface(self._LOG_PATH_NAME)        
+                    self._PowerMeter= ShellyInterface.ShellyInterface(self._config["DEFAULT"]["LogPath"])        
         
                 self._PowerMeter.connect(serial_port)
             except:
-                tk.messagebox.showerror(title="Serial Connection Failed", message="Connection to COM Port failed. Please check if another Tool is connected and retry.")
+                if(self._PowerMeter is VipSystem3Interface.VipSystem3Interface):
+                    tk.messagebox.showerror(title="Connection Failed", message="Connection to COM Port failed. Please check if another Tool is connected and retry.")
+                else:
+                    tk.messagebox.showerror(title="Connection Failed", message="Connection to TCP Target failed. Check connection data.")
             else:
                 self._SerialPortButton["text"] = "Disconnect"
                 self._SerialPortBox.state(['disabled'])
@@ -128,17 +131,47 @@ class FsPowerWatchGui:
         DataViewFrame.pack(side=BOTTOM, expand = 1, fill=BOTH, pady = 0, padx = 0)
         FsPowerWatchMainFrame.build_data_view(DataViewFrame, self._ValueStorage, self._LimitStorage, self._Fonts)
         
+        self._config = configparser.ConfigParser()
+        self._config.read("config.ini")
+        
+        print(self._config)
+        for key in self._config["DEFAULT"]:  
+            print(key)
+        if("DEFAULT" not in self._config):
+            self._config["DEFAULT"] = {}
+            
+        print(self._config)
+        for key in self._config["DEFAULT"]:  
+            print(key)
+        if("logpath" not in self._config):
+            self._config["DEFAULT"]["logpath"] = "./FSG_Log"
+        
         # Default is VIP System
-        self._PowerMeter= VipSystem3Interface.VipSystem3Interface(self._LOG_PATH_NAME)
+        self._PowerMeter= VipSystem3Interface.VipSystem3Interface(self._config["DEFAULT"]["LogPath"])
+        
+        
+        if("credentials" not in self._config):
+            self._config["credentials"] = {"username": "admin", "password": "admin"}
+            
+        if("port" in self._config["DEFAULT"]):
+            print(F"Try to autoconnect to {self._config["DEFAULT"]["port"]}")
+            self._SerialPortBox.set(self._config["DEFAULT"]["port"])
+            print(F"Try to autoconnect to {self._config["DEFAULT"]["port"]}")
+            self.ManagePort()
+        
         
         self._LightControl = LightControl.RbPILightControl(self._root)
         self._LightControl.SwitchLighState(LightControl.STATE_GREEN)
+        
+        
         
         self._root.after(500, self.UpdateData)
         self._root.mainloop()
         # Clean up
         self._PowerMeter.disconnect()
         self._LightControl.SwitchLighState(LightControl.STATE_OFF)
+        with open("config.ini",'w',) as configfile:
+            self._config.write(configfile)
 
 if __name__ == "__main__":
     FsPowerWatchGui()

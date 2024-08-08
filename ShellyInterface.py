@@ -96,7 +96,8 @@ class ShellyInterface:
         Stop the Permanent Run Loop
         '''
         self._RunActive = False
-        self._thread.join()
+        if(self._thread is not None):
+            self._thread.join()
      
     def isConnected(self):
         """
