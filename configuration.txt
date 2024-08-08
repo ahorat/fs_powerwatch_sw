@@ -1,0 +1,38 @@
+List WIFI Adapter: sudo iwlist wlan0 scan
+
+Connect sudo nmtui
+
+
+// Configure RTC: 
+// Add to /boot/config.txt
+dtoverlay=i2c-rtc,mcp7941x
+
+// Und falls UART Gebraucht: 
+enable_uart=1
+dtoverlay=miniuart-bt
+dtoverlay=uart-ctsrts
+
+core_freq=250
+
+// Fake RTC löschen 
+sudo apt -y remove fake-hwclock
+sudo update-rc.d -f fake-hwclock remove
+
+// RTC Kernel script aktivieren: 
+sudo nano /lib/udev/hwclock-set
+// Uncomment -> 
+if [ -e /run/systemd/system ] ; then
+    exit 0
+fi
+
+sudo hwclock -D -r
+sudo hwclock -w
+
+sudo nano /etc/init.d/PowerWatch.sh                                                                               
+#!/bin/bash
+
+exec python /home/ah/Repos/fs_powermeter_sw/fs_powerwatch_GUI.py
+pause
+
+
+
