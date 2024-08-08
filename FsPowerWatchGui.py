@@ -44,6 +44,11 @@ class FsPowerWatchGui:
         self._SerialPortButton = tk.Button(frame, text="Connect", command=self.ManagePort)
         
         self._SerialPortButton.pack(side=LEFT, padx=5, pady=5)
+        
+        self._CurrentTimeText = labelText = StringVar()
+        self._CurrentTimeLabel = tk.Label(frame, textvariable=self._CurrentTimeText )
+        self._CurrentTimeLabel.pack(side=RIGHT, padx=15, pady=5)
+        self._CurrentTimeText.set("01.01.0001 00:00")
             
     
     def ManagePort(self):
@@ -97,6 +102,7 @@ class FsPowerWatchGui:
         '''
         Checks for available Data from Powermeter and updates the View
         '''  
+        self._CurrentTimeText.set(time.strftime("%d.%m.%Y %H:%M:%S", time.gmtime()))
         if(self._PowerMeter is not None):
             NewValue = asdict(self._PowerMeter.getData())
             
