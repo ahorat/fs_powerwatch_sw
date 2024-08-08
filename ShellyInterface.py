@@ -25,19 +25,19 @@ class ShellyInterface:
     
     _datalogger = logging.getLogger('DataLogger')
     
-    def __init__(self, _log_file_name):
+    def __init__(self, _log_file_name, login_cred):
         '''
         Create new Instance
         '''       
         self._logger.setLevel(logging.INFO)        
         self._setupDataLogger(_log_file_name)
+        self._login_cred = login_cred
         
     def _setupDataLogger(self, _log_file_name):
         self._datalogger.setLevel(logging.DEBUG)
         self._datalogger.propagate = False        
         os.makedirs(os.path.dirname(_log_file_name), exist_ok =True)    
         dataLoggerHandler = logging.handlers.TimedRotatingFileHandler(_log_file_name, when='H', interval=1)
-        
         formatter = logging.Formatter('%(message)s')
         dataLoggerHandler.setFormatter(formatter)
         
@@ -110,9 +110,7 @@ class ShellyInterface:
         
         port: Serial Port for VIP Sys 
         """
-        
-        login_cred={"username": "admin", "password":"admin"}
-        self._shelly = ShellyPy.Shelly(ip_hostname) # 
+        self._shelly = ShellyPy.Shelly(ip_hostname, login=self._login_cred) # 
         self.collect_all_measurements()
 
     def disconnect(self):

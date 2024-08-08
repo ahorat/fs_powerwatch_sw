@@ -25,6 +25,7 @@ class FsPowerWatchGui:
     _Fonts = {}
     _ValueStorage = {}        
     _LimitStorage = {}
+    _Credentials = None
     
     def _on_configure(self, event):
         '''Event when window gets resized'''
@@ -67,7 +68,7 @@ class FsPowerWatchGui:
                 if((serial_port[0] == "C" or serial_port[0] == "/") and self._PowerMeter is not VipSystem3Interface.VipSystem3Interface):
                     self._PowerMeter= VipSystem3Interface.VipSystem3Interface(self._config["DEFAULT"]["LogPath"])
                 else:
-                    self._PowerMeter= ShellyInterface.ShellyInterface(self._config["DEFAULT"]["LogPath"])        
+                    self._PowerMeter= ShellyInterface.ShellyInterface(self._config["DEFAULT"]["LogPath"], self._Credentials)        
         
                 self._PowerMeter.connect(serial_port)
             except:
@@ -142,11 +143,9 @@ class FsPowerWatchGui:
         
         # Default is VIP System
         self._PowerMeter= VipSystem3Interface.VipSystem3Interface(self._config["DEFAULT"]["LogPath"])
-        
-        
-        if("credentials" not in self._config):
-            self._config["credentials"] = {"username": "admin", "password": "admin"}
-            
+        if("credentials" in self._config):
+            self._Credentials = dict(self._config["credentials"])
+           
         if("port" in self._config["DEFAULT"]):
             print(F"Try to autoconnect to " + self._config["DEFAULT"]["port"])
             self._SerialPortBox.set(self._config["DEFAULT"]["port"])
