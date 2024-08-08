@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk, filedialog, messagebox
@@ -133,7 +134,7 @@ class FsPowerWatchGui:
         FsPowerWatchMainFrame.build_data_view(DataViewFrame, self._ValueStorage, self._LimitStorage, self._Fonts)
         
         self._config = configparser.ConfigParser()
-        self._config.read("config.ini")
+        self._config.read(os.path.dirname(os.path.realpath(__file__)) + "/config.ini")
         
         if("DEFAULT" not in self._config):
             self._config["DEFAULT"] = {}
