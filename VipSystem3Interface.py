@@ -76,7 +76,7 @@ class VipSystem3Interface:
         Start serial communication and 
         '''
         error_counter = 0;
-        while(self._MakeCheckedRequest(_START_SERIAL_INTERFACE_KEY)):
+        while(self._MakeCheckedRequest(self._START_SERIAL_INTERFACE_KEY)):
             error_counter = error_counter + 1;
             if error_counter > 3:
                 self._logger.error('Initial Request ESC A failed.')

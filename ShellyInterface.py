@@ -25,6 +25,8 @@ class ShellyInterface:
     
     _datalogger = logging.getLogger('DataLogger')
     
+    _thread = None
+    
     def __init__(self, _log_file_name, login_cred):
         '''
         Create new Instance

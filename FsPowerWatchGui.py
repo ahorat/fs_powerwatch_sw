@@ -66,7 +66,7 @@ class FsPowerWatchGui:
         else:
             try:
                 serial_port=self._SerialPortBox.get().split(' ',1)[0]
-                if((serial_port[0] == "C" or serial_port[0] == "/") and self._PowerMeter is not VipSystem3Interface.VipSystem3Interface):
+                if((serial_port[0] == "C" or serial_port[0] == "/") ): #and self._PowerMeter is not VipSystem3Interface.VipSystem3Interface
                     self._PowerMeter= VipSystem3Interface.VipSystem3Interface(self._config["DEFAULT"]["LogPath"])
                 else:
                     self._PowerMeter= ShellyInterface.ShellyInterface(self._config["DEFAULT"]["LogPath"], self._Credentials)        
@@ -151,6 +151,22 @@ class FsPowerWatchGui:
             print(F"Try to autoconnect to " + self._config["DEFAULT"]["port"])
             self._SerialPortBox.set(self._config["DEFAULT"]["port"])
             self.ManagePort()
+        
+        if("Limits" in self._config):
+            if("current" in self._config["Limits"]):
+                currentLimit=int(self._config["Limits"]["current"])
+                self._LimitStorage['A_1']            =  [0.8*currentLimit, currentLimit]
+                self._LimitStorage['A_2']            =  [0.8*currentLimit, currentLimit]
+                self._LimitStorage['A_3']            =  [0.8*currentLimit, currentLimit]
+                self._LimitStorage['A_Sum']          =  [3*0.8*currentLimit, 3*currentLimit]
+                self._LimitStorage['A_N']            =  [0.8*currentLimit, currentLimit]
+                
+            if("power" in self._config["Limits"]):
+                powerLimit=int(self._config["Limits"]["power"])
+                self._LimitStorage['kW_1']           =  [0.8*powerLimit, powerLimit]
+                self._LimitStorage['kW_2']           =  [0.8*powerLimit, powerLimit]
+                self._LimitStorage['kW_3']           =  [0.8*powerLimit, powerLimit]
+                self._LimitStorage['kW_Sum']         =  [3*0.8*powerLimit, 3*powerLimit]
         
         
         self._LightControl = LightControl.RbPILightControl(self._root)
