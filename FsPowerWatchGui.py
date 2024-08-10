@@ -64,7 +64,7 @@ class FsPowerWatchGui:
             self._PowerMeter.disconnect()
             
         else:
-            try:
+            #try:
                 serial_port=self._SerialPortBox.get().split(' ',1)[0]
                 if((serial_port[0] == "C" or serial_port[0] == "/") ): #and self._PowerMeter is not VipSystem3Interface.VipSystem3Interface
                     self._PowerMeter= VipSystem3Interface.VipSystem3Interface(self._config["DEFAULT"]["LogPath"])
@@ -72,12 +72,12 @@ class FsPowerWatchGui:
                     self._PowerMeter= ShellyInterface.ShellyInterface(self._config["DEFAULT"]["LogPath"], self._Credentials)        
         
                 self._PowerMeter.connect(serial_port)
-            except:
-                if(self._PowerMeter is VipSystem3Interface.VipSystem3Interface):
-                    tk.messagebox.showerror(title="Connection Failed", message="Connection to COM Port failed. Please check if another Tool is connected and retry.")
-                else:
-                    tk.messagebox.showerror(title="Connection Failed", message="Connection to TCP Target failed. Check connection data.")
-            else:
+            #except:
+            #    if(self._PowerMeter is VipSystem3Interface.VipSystem3Interface):
+            #        tk.messagebox.showerror(title="Connection Failed", message="Connection to COM Port failed. Please check if another Tool is connected and retry.")
+            #    else:
+            #        tk.messagebox.showerror(title="Connection Failed", message="Connection to TCP Target failed. Check connection data.")
+            #else:
                 self._SerialPortButton["text"] = "Disconnect"
                 self._SerialPortBox.state(['disabled'])
                 self._PowerMeter.run()

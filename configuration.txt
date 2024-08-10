@@ -32,6 +32,11 @@ sudo hwclock -w
 sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 @lxterminal -e bash /home/powermeter/fs_powerwatch_sw/Powerwatch.sh
 
+oder
+
+
+@lxterminal --working-directory=/home/ah/Repos/fs_powerwatch_sw -e bash /home/ah/Repos/fs_powerwatch_sw/Powerwatch_serial.sh
+
 
 python -m venv env
 source env/bin/activate

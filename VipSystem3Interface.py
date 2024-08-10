@@ -64,6 +64,7 @@ class VipSystem3Interface:
         self._logger.info(F'<-{str(request)}')
         self._serialport.flush()
         
+        #respone =self._serialport.readline()
         response = self._serialport.read_until(expected = '\n', size = 4)        
         self._logger.info(F'->{str(response)}')
         if(response != (request)):
@@ -96,7 +97,7 @@ class VipSystem3Interface:
         self._StartSerialCommunication()
         
         error_counter = 0;
-        while(self._MakeCheckedRequest(_REQUEST_ALL_MEASUREMENTS)):
+        while(self._MakeCheckedRequest(self._REQUEST_ALL_MEASUREMENTS)):
             error_counter = error_counter + 1;
             if error_counter > 3:
                 self._logger.error('Request for all Measurements failed.')
@@ -175,7 +176,7 @@ class VipSystem3Interface:
         
         checksum = (checksum & 0xF) ^ (checksum >> 4);
         
-        rx_data_fields=RxDataStruct(int(rx_data_matched[2][::-1],16),
+        rx_data_fields=self.RxDataStruct(int(rx_data_matched[2][::-1],16),
          int(rx_data_matched[3][::-1],16),
          bytes.fromhex(rx_data_matched[4][::-1])[::-1],
         int(rx_data_matched[5],16))
@@ -237,7 +238,7 @@ class VipSystem3Interface:
            self._DataStorage.kW_1_Avg    = int.from_bytes(frame.data[6:8], 'little') * pow(10.0, int.from_bytes(frame.data[8:9],'little', signed=True)-3)
            self._DataStorage.kW_2_Avg    = int.from_bytes(frame.data[9:11], 'little') * pow(10.0, int.from_bytes(frame.data[11:12],'little', signed=True)-3)
            self._DataStorage.kW_3_Avg    = int.from_bytes(frame.data[12:14], 'little') * pow(10.0, int.from_bytes(frame.data[14:15],'little', signed=True)-3) 
-        elif(frame.address== _MEASURING_PAGE_5_ID):
+        elif(frame.address== self._MEASURING_PAGE_5_ID):
            self._DataStorage.kW_Sum_Avg  = int.from_bytes(frame.data[0:2], 'little') * pow(10.0, int.from_bytes(frame.data[2:3],'little', signed=True)-3)
            self._DataStorage.kVA_1       = int.from_bytes(frame.data[3:5], 'little') * pow(10.0, int.from_bytes(frame.data[5:6],'little', signed=True)-3)
            self._DataStorage.kVA_2       = int.from_bytes(frame.data[6:8], 'little') * pow(10.0, int.from_bytes(frame.data[8:9],'little', signed=True)-3)
@@ -326,7 +327,7 @@ class VipSystem3Interface:
         """
         
         counter = 0;
-        self._datalogger.info(F"TimeStamp, "+', '.join(list(fields(self._DataStorage))))
+        self._datalogger.info(F"TimeStamp, "+', '.join([field.name for field in (fields(self._DataStorage))]))
         self._datalogger.info(F"{time.time_ns()//1_000_000}, "+', '.join(['{:f}'.format(x) for x in list(asdict(self._DataStorage).values())]))
         
         while self._RunActive:
@@ -335,7 +336,7 @@ class VipSystem3Interface:
                 print("Get all Values")
                 counter = 60
             else:
-                self.collect_all_measurements(_MEASURING_PAGE_5_ID)
+                self.collect_all_measurements(self._MEASURING_PAGE_5_ID)
             
             counter = counter - 1
             self._datalogger.info(F"{time.time_ns()}, "+', '.join(['{:f}'.format(x) for x in list(asdict(self._DataStorage).values())]))
