@@ -96,7 +96,7 @@ class FsPowerWatchGui:
                 state = LightControl.STATE_ORANGE
             if(self._ValueStorage[key].Value.get() > self._LimitStorage[key][1] and 
                 self._LimitStorage[key][1] != 0.0):
-                state = LightControl.STATE_RED                
+                state = LightControl.STATE_RED   
                 break
         
         return state

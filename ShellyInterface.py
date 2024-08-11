@@ -57,10 +57,10 @@ class ShellyInterface:
         self._DataStorage.V_1         = data[0]['voltage']
         self._DataStorage.V_2         = data[1]['voltage']
         self._DataStorage.V_3         = data[2]['voltage']
-        self._DataStorage.kW_1        = data[0]['power']
-        self._DataStorage.kW_2        = data[1]['power']
-        self._DataStorage.kW_3        = data[2]['power']
-        self._DataStorage.kW_Sum      = data[0]['power'] + data[1]['power'] + data[2]['power']
+        self._DataStorage.kW_1        = data[0]['power']/1000.0
+        self._DataStorage.kW_2        = data[1]['power']/1000.0
+        self._DataStorage.kW_3        = data[2]['power']/1000.0
+        self._DataStorage.kW_Sum      = data[0]['power']/1000.0 + data[1]['power']/1000.0 + data[2]['power']/1000.0
         self._DataStorage.Cos_1       = data[0]['pf']
         self._DataStorage.Cos_2       = data[1]['pf']
         self._DataStorage.Cos_3       = data[2]['pf']

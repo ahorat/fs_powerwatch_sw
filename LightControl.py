@@ -21,7 +21,7 @@ class RbPILightControl:
     _BlinkState = False
     
     # Configuration Parameter
-    RED_FREQUENCY_2_ms = 5000
+    RED_FREQUENCY_2_ms = 1000
     RED_LED_GPIO=20
     YELLOW_LED_GPIO=26
     GREEN_LED_GPIO=21
@@ -64,7 +64,12 @@ class RbPILightControl:
         state:  Desired state of traffic light. Set to 0 to turn all off. 
         '''
         
+        if(self._CurrentState == state):
+            return
+        
         self._CurrentState = state
+        
+        print(F"Switch to {state}")
         
         if 'NoPI' in globals(): 
             return
