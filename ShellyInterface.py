@@ -78,11 +78,16 @@ class ShellyInterface:
         
         while self._RunActive:            
             time.sleep(0.5)
-            self.collect_all_measurements()
-            self._datalogger.info(F"{time.time_ns()}, "+', '.join(['{:f}'.format(x) for x in list(dataclasses.asdict(self._DataStorage).values())]))
-            self._DataQueue.put(self._DataStorage)       
-            
-            
+            try:
+                self.collect_all_measurements()
+                self._datalogger.info(F"{time.time_ns()}, "+', '.join(['{:f}'.format(x) for x in list(dataclasses.asdict(self._DataStorage).values())]))
+                self._DataQueue.put(self._DataStorage)       
+            except Exception as e:
+                if hasattr(e, 'message'):
+                    self._logger.error(e.message)
+                else:
+                    self._logger.error(e)
+                
     def run(self):
         '''
         Launch a Thread to collect repetitively all measurements.
