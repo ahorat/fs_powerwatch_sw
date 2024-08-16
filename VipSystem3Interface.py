@@ -30,6 +30,8 @@ class VipSystem3Interface:
     
     _MEASURING_PAGE_5_ID = 0x0004
     
+    _MAX_RETRIES = 20
+    
     RxDataStruct = namedtuple('RxDataStruct', ['length','address','data','checksum'])
     
     def __init__(self, _log_file_name):
@@ -79,7 +81,7 @@ class VipSystem3Interface:
         error_counter = 0;
         while(self._MakeCheckedRequest(self._START_SERIAL_INTERFACE_KEY)):
             error_counter = error_counter + 1;
-            if error_counter > 3:
+            if error_counter > self._MAX_RETRIES:
                 self._logger.error('Initial Request ESC A failed.')
                 return 1
         
@@ -99,7 +101,7 @@ class VipSystem3Interface:
         error_counter = 0;
         while(self._MakeCheckedRequest(self._REQUEST_ALL_MEASUREMENTS)):
             error_counter = error_counter + 1;
-            if error_counter > 3:
+            if error_counter > self._MAX_RETRIES:
                 self._logger.error('Request for all Measurements failed.')
                 return 2
          
