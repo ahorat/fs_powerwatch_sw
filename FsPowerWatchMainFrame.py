@@ -131,18 +131,30 @@ def build_data_view(root, ValueStorage, LimitStorage, Fonts):
     ValueStorage ['Tgs_Sum']      = DataValue(DoubleVar(root, value = 0.00), "{:1.3F}", "Tangens(Phi) Sum")
     ValueStorage ['AUX']          = DataValue(DoubleVar(root, value = 0.00), "{:1.3F}", "Auxiliary Value")
     
-    LimitStorage['A_1']            =  [100, 120]
-    LimitStorage['A_2']            =  [100, 120]
-    LimitStorage['A_3']            =  [100, 120]
-    LimitStorage['A_Sum']          =  [300, 375]
-    LimitStorage['V_1']            =  [0, 0]
-    LimitStorage['V_2']            =  [0, 0]
-    LimitStorage['V_3']            =  [0, 0]
-    LimitStorage['A_N']            =  [100, 120]
-    LimitStorage['kW_1']           =  [120, 145]
-    LimitStorage['kW_2']           =  [120, 145]
-    LimitStorage['kW_3']           =  [120, 145]
-    LimitStorage['kW_Sum']         =  [120, 145]
+    if('A_1'  not in LimitStorage):
+       LimitStorage['A_1']            =  [100, 120]
+    if('A_2'  not in LimitStorage):
+       LimitStorage['A_2']            =  [100, 120]
+    if('A_3'  not in LimitStorage):
+       LimitStorage['A_3']            =  [100, 120]
+    if('A_Sum'  not in LimitStorage):
+       LimitStorage['A_Sum']          =  [300, 375]
+    if('V_1'  not in LimitStorage):
+       LimitStorage['V_1']            =  [0, 0]
+    if('V_2'  not in LimitStorage):
+       LimitStorage['V_2']            =  [0, 0]
+    if('V_3'  not in LimitStorage):
+       LimitStorage['V_3']            =  [0, 0]
+    if('A_N'  not in LimitStorage):
+       LimitStorage['A_N']            =  [100, 120]
+    if('kW_1'  not in LimitStorage):
+       LimitStorage['kW_1']           =  [120, 145]
+    if('kW_2'  not in LimitStorage):
+       LimitStorage['kW_2']           =  [120, 145]
+    if('kW_3'  not in LimitStorage):
+       LimitStorage['kW_3']           =  [120, 145]
+    if('kW_Sum'  not in LimitStorage):
+       LimitStorage['kW_Sum']         =  [120, 145]
     
     
     ## Top 3 Rows reserved for later usage

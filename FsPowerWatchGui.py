@@ -128,11 +128,6 @@ class FsPowerWatchGui:
         HeaderFrame.pack(side=TOP, fill=X)
         self.build_header_frame(HeaderFrame) 
         
-        # Create Main Frame
-        DataViewFrame = Frame(self._root)
-        DataViewFrame.pack(side=BOTTOM, expand = 1, fill=BOTH, pady = 0, padx = 0)
-        FsPowerWatchMainFrame.build_data_view(DataViewFrame, self._ValueStorage, self._LimitStorage, self._Fonts)
-        
         self._config = configparser.ConfigParser()
         self._config.read(os.path.dirname(os.path.realpath(__file__)) + "/config.ini")
         
@@ -167,6 +162,11 @@ class FsPowerWatchGui:
                 self._LimitStorage['kW_2']           =  [0.8*powerLimit, powerLimit]
                 self._LimitStorage['kW_3']           =  [0.8*powerLimit, powerLimit]
                 self._LimitStorage['kW_Sum']         =  [3*0.8*powerLimit, 3*powerLimit]
+
+        # Create Main Frame
+        DataViewFrame = Frame(self._root)
+        DataViewFrame.pack(side=BOTTOM, expand = 1, fill=BOTH, pady = 0, padx = 0)
+        FsPowerWatchMainFrame.build_data_view(DataViewFrame, self._ValueStorage, self._LimitStorage, self._Fonts)
         
         
         self._LightControl = LightControl.RbPILightControl(self._root)

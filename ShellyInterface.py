@@ -87,7 +87,7 @@ class ShellyInterface:
                     self._logger.error(e.message)
                 else:
                     self._logger.error(e)
-                
+            
     def run(self):
         '''
         Launch a Thread to collect repetitively all measurements.
