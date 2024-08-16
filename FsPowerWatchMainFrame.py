@@ -13,13 +13,6 @@ import tkinter.font as tkf
 from collections import namedtuple
 
 
-def _on_configure(event):
-    if (event.widget == root):
-        size = event.width/30
-        MainFont.configure(size=int(size))
-        AvgFont.configure(size=int(size/2.2))
-        MaxFont.configure(size=int(size/2.2))
- 
 def build_data_view(root, ValueStorage, LimitStorage, Fonts):
     Columnspan_large=4
     
@@ -32,6 +25,7 @@ def build_data_view(root, ValueStorage, LimitStorage, Fonts):
         
     
     # Generate Needed Font
+
     Fonts['MainFont'] = tkf.Font(family="Arial", size=30, weight ="bold")
     Fonts['AvgFont'] = tkf.Font(family="Arial", size=15, underline=1)
     Fonts['MaxFont'] = tkf.Font(family="Arial", size=15, weight ="bold")
@@ -43,18 +37,18 @@ def build_data_view(root, ValueStorage, LimitStorage, Fonts):
     # Create value storage to format each cell accordingly
     DataValue = namedtuple('DataValue', ["Value", "Format", "Description"])
 
-    ValueStorage ['A_1']          = DataValue(DoubleVar(root, value = 050.25), "{:3.2F} A", "Current L1")
-    ValueStorage ['A_2']          = DataValue(DoubleVar(root, value = 090.25), "{:3.2F} A", "Current L2")
-    ValueStorage ['A_3']          = DataValue(DoubleVar(root, value = 100.25), "{:3.2F} A", "Current L3")
-    ValueStorage ['A_Sum']        = DataValue(DoubleVar(root, value = 123.25), "{:3.2F} A", "Current Sum")
-    ValueStorage ['V_1']          = DataValue(DoubleVar(root, value = 125.25), "{:3.2F} V", "Voltage L1")
-    ValueStorage ['V_2']          = DataValue(DoubleVar(root, value = 123.25), "{:3.2F} V", "Voltage L2")
-    ValueStorage ['V_3']          = DataValue(DoubleVar(root, value = 123.25), "{:3.2F} V", "Voltage L3")
-    ValueStorage ['A_N']          = DataValue(DoubleVar(root, value = 123.25), "{:3.2F} A", "Current N")
-    ValueStorage ['kW_1']         = DataValue(DoubleVar(root, value = 123.25), "{:3.2F} kW", "Inst. Power Ph 1")
-    ValueStorage ['kW_2']         = DataValue(DoubleVar(root, value = 123.25), "{:3.2F} kW", "Inst. Power Ph 2")
-    ValueStorage ['kW_3']         = DataValue(DoubleVar(root, value = 123.25), "{:3.2F} kW", "Inst. Power Ph 3")
-    ValueStorage ['kW_Sum']       = DataValue(DoubleVar(root, value = 123.25), "{:3.2F} kW", "Inst. Power Sum ")
+    ValueStorage ['A_1']          = DataValue(DoubleVar(root, value = 050.25), "{:3.1F} A", "Current L1")
+    ValueStorage ['A_2']          = DataValue(DoubleVar(root, value = 090.25), "{:3.1F} A", "Current L2")
+    ValueStorage ['A_3']          = DataValue(DoubleVar(root, value = 100.25), "{:3.1F} A", "Current L3")
+    ValueStorage ['A_Sum']        = DataValue(DoubleVar(root, value = 123.25), "{:3.1F} A", "Current Sum")
+    ValueStorage ['V_1']          = DataValue(DoubleVar(root, value = 125.25), "{:3.1F} V", "Voltage L1")
+    ValueStorage ['V_2']          = DataValue(DoubleVar(root, value = 123.25), "{:3.1F} V", "Voltage L2")
+    ValueStorage ['V_3']          = DataValue(DoubleVar(root, value = 123.25), "{:3.1F} V", "Voltage L3")
+    ValueStorage ['A_N']          = DataValue(DoubleVar(root, value = 123.25), "{:3.1F} A", "Current N")
+    ValueStorage ['kW_1']         = DataValue(DoubleVar(root, value = 123.25), "{:3.1F} kW", "Inst. Power Ph 1")
+    ValueStorage ['kW_2']         = DataValue(DoubleVar(root, value = 123.25), "{:3.1F} kW", "Inst. Power Ph 2")
+    ValueStorage ['kW_3']         = DataValue(DoubleVar(root, value = 123.25), "{:3.1F} kW", "Inst. Power Ph 3")
+    ValueStorage ['kW_Sum']       = DataValue(DoubleVar(root, value = 123.25), "{:3.1F} kW", "Inst. Power Sum ")
     ValueStorage ['kW_1_Avg']     = DataValue(DoubleVar(root, value = 000.00), "{:3.2F} kW", "Avg Power Ph 1")
     ValueStorage ['kW_1_max']     = DataValue(DoubleVar(root, value = 100.00), "{:3.2F} kW", "Max Power Ph 1")
     ValueStorage ['kW_2_Avg']     = DataValue(DoubleVar(root, value = 000.10), "{:3.2F} kW", "Avg Power Ph 2")

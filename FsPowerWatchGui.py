@@ -31,7 +31,7 @@ class FsPowerWatchGui:
     def _on_configure(self, event):
         '''Event when window gets resized'''
         if (event.widget == self._root):
-            size = event.width/30
+            size = event.width/20
             self._Fonts['MainFont'].configure(size=int(size))
             self._Fonts['AvgFont'].configure(size=int(size/2.2))
             self._Fonts['MaxFont'].configure(size=int(size/2.2))
@@ -51,7 +51,13 @@ class FsPowerWatchGui:
         self._CurrentTimeLabel = tk.Label(frame, textvariable=self._CurrentTimeText )
         self._CurrentTimeLabel.pack(side=RIGHT, padx=15, pady=5)
         self._CurrentTimeText.set("01.01.0001 00:00")
-            
+        
+
+        self._UpdateTimeText = labelText = StringVar()
+        self._UpdateTimeLabel = tk.Label(frame, textvariable=self._CurrentTimeText )
+        #self._UpdateTimeLabel.pack(side=RIGHT, padx=15, pady=40)
+        self._UpdateTimeText.set("Last Update: 00:00")
+                
     
     def ManagePort(self):
         '''
@@ -112,7 +118,10 @@ class FsPowerWatchGui:
             NewValue = asdict(self._PowerMeter.getData())
             
             for key in NewValue.keys():
-                self._ValueStorage[key].Value.set(NewValue[key])
+                if(key=="Time"):
+                    self._UpdateTimeText.set(F"Last Update: { NewValue[key]}")
+                else:
+                    self._ValueStorage[key].Value.set(NewValue[key])
             
         self._LightControl.SwitchLighState(self.CheckLimits())
         self._root.after(500, self.UpdateData)

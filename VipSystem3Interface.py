@@ -320,6 +320,7 @@ class VipSystem3Interface:
            self._DataStorage.Distortion_Sum_max = int.from_bytes(frame.data[6:8], 'little') * 0.01
         else:
             pass
+        
     
     def _RunLoop(self):
         """
