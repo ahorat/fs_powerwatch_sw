@@ -342,7 +342,7 @@ class VipSystem3Interface:
                 self.collect_all_measurements(self._MEASURING_PAGE_5_ID)
             
             counter = counter - 1
-            self._datalogger.info(F"{time.time_ns()}, "+', '.join(['{:f}'.format(x) for x in list(asdict(self._DataStorage).values())]))
+            self._datalogger.info(F"{time.time_ns()//1_000_000}, "+', '.join(['{:f}'.format(x) for x in list(asdict(self._DataStorage).values())]))
             self._DataQueue.put(self._DataStorage)       
             
             
