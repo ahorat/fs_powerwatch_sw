@@ -100,14 +100,14 @@ class UMG96RMEInterface:
         self._DataStorage.Tgs_2         = 0#utils.decode_ieee(data[2])        
         self._DataStorage.Tgs_3         = 0#utils.decode_ieee(data[2])        
         self._DataStorage.Tgs_Sum       = 0#utils.decode_ieee(data[2])        
-        self._DataStorage.kWh_1         = utils.decode_ieee(data[27])        
-        self._DataStorage.kWh_2         = utils.decode_ieee(data[28])        
-        self._DataStorage.kWh_3         = utils.decode_ieee(data[29])        
-        self._DataStorage.kWh_Sum       = utils.decode_ieee(data[30])        
-        self._DataStorage.kVArh_1       = utils.decode_ieee(data[43])        
-        self._DataStorage.kVArh_2       = utils.decode_ieee(data[44])       
-        self._DataStorage.kVArh_3       = utils.decode_ieee(data[45])         
-        self._DataStorage.kVArh_Sum     = utils.decode_ieee(data[46])  
+        self._DataStorage.kWh_1         = utils.decode_ieee(data[27])/1000.0        
+        self._DataStorage.kWh_2         = utils.decode_ieee(data[28])/1000.0        
+        self._DataStorage.kWh_3         = utils.decode_ieee(data[29])/1000.0        
+        self._DataStorage.kWh_Sum       = utils.decode_ieee(data[30])/1000.0        
+        self._DataStorage.kVArh_1       = utils.decode_ieee(data[43])/1000.0        
+        self._DataStorage.kVArh_2       = utils.decode_ieee(data[44])/1000.0       
+        self._DataStorage.kVArh_3       = utils.decode_ieee(data[45])/1000.0         
+        self._DataStorage.kVArh_Sum     = utils.decode_ieee(data[46])/1000.0  
 
    
         data=self._device.read_input_registers(2508,24)        
