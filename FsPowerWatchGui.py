@@ -12,6 +12,7 @@ import FormatLabel
 import tkinter.font as tkf
 import VipSystem3Interface
 import ShellyInterface
+import UMG96RMEInterface
 import FsPowerWatchMainFrame
 import LightControl
 from dataclasses import asdict
@@ -39,7 +40,7 @@ class FsPowerWatchGui:
     def build_header_frame(self, frame):
         '''Build header Frame, which includes connection control'''
         tk.Label(frame, text="Serial Port: ").pack(side=LEFT, padx=5, pady=5);
-        self._SerialPortBox = ttk.Combobox(frame, values=[str(x) for x in list(serial.tools.list_ports.comports())]+[ "shellyem3-C45BBE7989DD"], width=50)
+        self._SerialPortBox = ttk.Combobox(frame, values=[str(x) for x in list(serial.tools.list_ports.comports())]+[ "shellyem3-C45BBE7989DD", "ug96rme-192.168.1.1"], width=50)
         self._SerialPortBox.current(0)
         self._SerialPortBox.pack(side=LEFT, padx=5, pady=5)
         
@@ -74,8 +75,11 @@ class FsPowerWatchGui:
                 serial_port=self._SerialPortBox.get().split(' ',1)[0]
                 if((serial_port[0] == "C" or serial_port[0] == "/") ): #and self._PowerMeter is not VipSystem3Interface.VipSystem3Interface
                     self._PowerMeter= VipSystem3Interface.VipSystem3Interface(self._config["DEFAULT"]["LogPath"])
-                else:
-                    self._PowerMeter= ShellyInterface.ShellyInterface(self._config["DEFAULT"]["LogPath"], self._Credentials)        
+                elif(serial_port[0:8] == "shellyem3"):
+                    self._PowerMeter= ShellyInterface.ShellyInterface(self._config["DEFAULT"]["LogPath"], self._Credentials)    
+                elif(serial_port[0:7] == "ug96rme"):
+                    serial_port=serial_port.split('-')[-1]
+                    self._PowerMeter= UMG96RMEInterface.UMG96RMEInterface(self._config["DEFAULT"]["LogPath"], self._Credentials)                        
         
                 self._PowerMeter.connect(serial_port)
             #except:
